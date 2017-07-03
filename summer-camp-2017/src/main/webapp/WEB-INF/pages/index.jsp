@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,6 +8,21 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<p>Hello World!<p>
+	<c:forEach var="obj" items="${modelAnnouncement}">
+	<table cellspacing="1">
+		<tr>
+		
+			<td>Title</td>
+			<td>Content</td>
+			<td>Location</td>
+		</tr>
+		<tr>
+		
+			<td>${obj.getTitle()}</td>
+			<td>${obj.getContent()}</td>
+			<td>${obj.getLocation()}</td>
+		</tr>
+	</table>
+	</c:forEach>
 </body>
 </html>
