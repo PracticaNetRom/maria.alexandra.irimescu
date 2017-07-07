@@ -1,34 +1,46 @@
 package ro.netrom.summercamp.summercamp2017.comment;
 
-import ro.netrom.summercamp.summercamp2017.announcement.Announcement;
+import java.sql.Date;
+import java.util.List;
 
 public class Comment {
-	private String commentId;
+	
+	private Integer commentId;
+	private String content;
 	private String name;
-	private String parent;
-	private Announcement announcementId;
-	private String createDate;
-	// private String children;
-
+	private Integer announcementId;
+	private Date createDate;
+	private List<Comment> children;
+	
 	public Comment() {
-
+		super();
 	}
 
-	public Comment(String commentId, String name, String parent, Announcement announcementId, String createDate) {
+	public Comment(Integer commentId, String content, String name, Integer announcementId, Date createDate,
+			List<Comment> children) {
 		super();
 		this.commentId = commentId;
+		this.content = content;
 		this.name = name;
-		this.parent = parent;
 		this.announcementId = announcementId;
 		this.createDate = createDate;
+		this.children = children;
 	}
 
-	public String getCommentId() {
+	public Integer getCommentId() {
 		return commentId;
 	}
 
-	public void setCommentId(String commentId) {
+	public void setCommentId(Integer commentId) {
 		this.commentId = commentId;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public String getName() {
@@ -39,28 +51,31 @@ public class Comment {
 		this.name = name;
 	}
 
-	public String getParent() {
-		return parent;
-	}
-
-	public void setParent(String parent) {
-		this.parent = parent;
-	}
-
-	public Announcement getAnnouncementId() {
+	public Integer getAnnouncementId() {
 		return announcementId;
 	}
 
-	public void setAnnouncementId(Announcement announcementId) {
+	public void setAnnouncementId(Integer announcementId) {
 		this.announcementId = announcementId;
 	}
 
-	public String getCreateDate() {
+	public Date getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(String createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 
+	public List<Comment> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Comment> children) {
+		this.children = children;
+	}
+	
+	
+	
+	
 }
