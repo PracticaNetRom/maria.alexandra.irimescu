@@ -8,10 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +19,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -39,7 +38,7 @@ public class IndexController {
 	@Autowired
 	ObjectMapper objectMapper;
 
-	//Display all the announcements 
+	// Display all the announcements
 	@RequestMapping(value = "/listAnnouncement.html", method = RequestMethod.GET)
 	public String displayAnnouncements(Model model) throws JsonParseException, JsonMappingException, IOException {
 		List<Announcement> announcements = new ArrayList<>();
@@ -73,28 +72,45 @@ public class IndexController {
 	}
 
 	@RequestMapping(value = "/addAnnouncement.html", method = RequestMethod.POST)
-	public String addAnnouncement(@ModelAttribute("announcement") Announcement announcement, BindingResult results) {
+	public View addAnnouncement(Model model, @ModelAttribute("announcement") Announcement announcement,
+			BindingResult results) {
 
-		// s String url =
-		// "http://summercamp.api.stage03.netromsoftware.ro/api/announcement/save.do";
+		String url = "http://summercamp.api.stage03.netromsoftware.ro/api/announcement/save.do";
 
-		// ResponseEntity<Announcement> response =
-		// restTemplate.postForEntity(url, announcement, Announcement.class);
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		announcement.setCreateDate(new Date());
+		ResponseEntity<Announcement> response = restTemplate.postForEntity(url, announcement, Announcement.class);
 
-		// model.addAttribute("addAnnouncement", announcement);
+		model.addAttribute("announcement", response);
+		return new RedirectView("/listAnnouncement.html", true);
 
-		HttpEntity<Announcement> entity = new HttpEntity<Announcement>(announcement, httpHeaders);
-		ResponseEntity<String> response = restTemplate.postForEntity(
-				"http://summercamp.api.stage03.netromsoftware.ro/api/announcement/save.do", entity, String.class);
+	}
 
-		if (response.getBody().isEmpty() || !response.getStatusCode().is2xxSuccessful())
-			return "error";
-		//return "index";
+	@RequestMapping(value = "/showDetails.html", method = RequestMethod.GET)
+	public String getAnnouncementById(Model model, Integer id)
+			throws JsonParseException, JsonMappingException, IOException {
 
-		 return "addAnnouncement";
+		Announcement announcement = null;
+		String urlAnnouncement = "http://summercamp.api.stage03.netromsoftware.ro/api/announcement/getById.do?announcementId=" + id.toString();
+		ResponseEntity<String> responseAnnouncement = restTemplate.getForEntity(urlAnnouncement, String.class);
 
+		if (responseAnnouncement.getStatusCode().equals(HttpStatus.OK) && !responseAnnouncement.getBody().isEmpty()) {
+			announcement = objectMapper.readValue(responseAnnouncement.getBody(), new TypeReference<Announcement>() {
+			});
+		}
+		model.addAttribute("announcementById", announcement);
+		
+		String url = "http://summercamp.api.stage03.netromsoftware.ro/api/comments/list.do?announcementId=" + id.toString();
+		List<Comment> comments = new ArrayList<>();
+
+		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+		if (response.getStatusCode().equals(HttpStatus.OK) && !response.getBody().isEmpty()) {
+			comments = objectMapper.readValue(response.getBody(), new TypeReference<ArrayList<Comment>>() {
+			});
+		}
+		model.addAttribute("comments", comments);
+		
+		return "details";
 	}
 
 	@InitBinder
@@ -104,11 +120,11 @@ public class IndexController {
 
 	}
 
-	@RequestMapping(value = "/listComments.do", method = RequestMethod.GET)
-	public String showComment(Model model, Comment announcementId)
+	@RequestMapping(value = "/listComments.html", method = RequestMethod.GET)
+	public String showComment(Model model, Integer id)
 			throws JsonParseException, JsonMappingException, IOException {
 
-		String url = "http://summercamp.api.stage03.netromsoftware.ro/api/comments/list.do";
+		String url = "http://summercamp.api.stage03.netromsoftware.ro/api/comments/list.do?announcementId=" + id.toString();
 		List<Comment> comments = new ArrayList<>();
 
 		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
@@ -118,7 +134,7 @@ public class IndexController {
 			});
 		}
 		model.addAttribute("modelComments", comments);
-		return "listComment";
+		return "comment";
 	}
 
 	/*

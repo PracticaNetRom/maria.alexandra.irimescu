@@ -61,7 +61,6 @@
 	<div class=" subtitle">
 		<h3 style="margin-left: 50px; padding: 15px 0;">New Announcement</h3>
 	</div>
-
 	<form action="/addAnnouncement.html" method="POST"
 		class="form-horizontal">
 		<div class="form-group">
@@ -96,7 +95,7 @@
 			<label class="col-sm-2 control-label"> ExpireDate</label>
 			<div class="col-sm-8">
 				<input type="text" class="form-control" placeholder="Expire date"
-					name="expireDate" id = "expireDate">
+					name="expireDate" id="expireDate">
 			</div>
 		</div>
 		<div class="form-group">
@@ -134,11 +133,18 @@
 					name="categoryName">
 			</div>
 		</div>
-		`
-		<div class="col-sm-2 control-label" >
+
+		<div class="col-sm-2 control-label">
+
 			<button type="submit" class="btn btn-default">Submit</button>
+
 		</div>
 	</form>
 
 </body>
+<script type="text/javascript">
+	$(function() {
+		$("#expireDate").datepicker();
+	});
+</script>
 </html>

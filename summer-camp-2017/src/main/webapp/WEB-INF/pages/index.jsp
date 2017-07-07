@@ -21,8 +21,6 @@
 
 <title>Announcement</title>
 <style>
-
-
 div.listAnnounce {
 	width: 40%;
 	margin: 70px 350px;
@@ -100,17 +98,17 @@ div.listAnnounce {
 
 	<c:forEach var="obj" items="${modelAnnouncement}">
 		<div class="listAnnounce">
-			<ul class="navbar-form navbar-right">
-			<form action = "listAnnouncement.html">
-				<a href="details.jsp">Details</a>
-			</form>
-
-			</ul>
-			<p>${obj.getId()}</p>
-			<p>${obj.getTitle()}</p>
-			<p>${obj.getLocation()}</p>
-			<p>${obj.getContent()}</p>
-			<p align="right">Available: ${obj.getCreateDate()} to
+				<form action="showDetails.html?id=${obj.id}" method="get">
+					<button class="btn btn-primary ">Details</button>
+				</form>
+				
+			<a href="showDetails.html?id=${obj.id}">Details</a><br>
+			<a href = "listComments.html">Comment</a>
+			
+			<p>Title: ${obj.getTitle()}</p>
+			<p>Location: ${obj.getLocation()}</p>
+			<p>Content: ${obj.getContent()}</p>
+			<p>Available: ${obj.getCreateDate()} to
 				${obj.getExpireDate()}</p>
 
 		</div>
@@ -124,9 +122,5 @@ div.listAnnounce {
 		$("#expireDate").datepicker();
 	});
 </script>
-<script>
-	function refreshPage() {
-		window.location.reload();
-	}
-</script>
+
 </html>

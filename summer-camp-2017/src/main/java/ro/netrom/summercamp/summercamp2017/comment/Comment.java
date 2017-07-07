@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Comment {
 	
-	private Integer commentId;
+	private Integer id;
 	private String content;
 	private String name;
 	private Integer announcementId;
@@ -19,7 +19,7 @@ public class Comment {
 	public Comment(Integer commentId, String content, String name, Integer announcementId, Date createDate,
 			List<Comment> children) {
 		super();
-		this.commentId = commentId;
+		this.id = commentId;
 		this.content = content;
 		this.name = name;
 		this.announcementId = announcementId;
@@ -27,12 +27,12 @@ public class Comment {
 		this.children = children;
 	}
 
-	public Integer getCommentId() {
-		return commentId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setCommentId(Integer commentId) {
-		this.commentId = commentId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getContent() {
