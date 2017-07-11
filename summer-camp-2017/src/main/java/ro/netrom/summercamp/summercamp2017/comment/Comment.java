@@ -8,6 +8,7 @@ public class Comment {
 	private Integer id;
 	private String content;
 	private String name;
+	private Integer parentId;
 	private Integer announcementId;
 	private Date createDate;
 	private List<Comment> children;
@@ -16,12 +17,13 @@ public class Comment {
 		super();
 	}
 
-	public Comment(Integer commentId, String content, String name, Integer announcementId, Date createDate,
+	public Comment(Integer id, String content, String name,Integer parentId, Integer announcementId, Date createDate,
 			List<Comment> children) {
 		super();
-		this.id = commentId;
+		this.id = id;
 		this.content = content;
 		this.name = name;
+		this.parentId = parentId;
 		this.announcementId = announcementId;
 		this.createDate = createDate;
 		this.children = children;
@@ -57,6 +59,14 @@ public class Comment {
 
 	public void setAnnouncementId(Integer announcementId) {
 		this.announcementId = announcementId;
+	}
+	
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
 	}
 
 	public Date getCreateDate() {

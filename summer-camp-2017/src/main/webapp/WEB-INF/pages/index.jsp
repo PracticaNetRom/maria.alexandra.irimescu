@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/resources/css/bootstrap-theme.css.map">
 <link rel="stylesheet" href="/resources/css/bootstrap.css.map">
-
+<link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
 
 <script src="/resources/js/jquery-3.2.1.js"></script>
 <script src="/resources/js/jquery-ui.js"></script>
@@ -32,6 +32,8 @@ div.listAnnounce {
 @media screen and (max-width: 600px) {
 	ul.topnav li {
 		float: none;
+		margin: 0;
+		padding: 0;
 	}
 	div.listAnnounce {
 		float: none;
@@ -46,11 +48,7 @@ div.listAnnounce {
 
 </head>
 <body>
-	<!-- 
-	<div class = "topnav">
-		<p>Announcements</p>
-	</div>
-	-->
+	<!--  Navigation bar -->
 	<nav class="navbar navbar-default" style="top: 0">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -69,11 +67,6 @@ div.listAnnounce {
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 
-				<ul class="nav navbar-nav">
-
-
-
-				</ul>
 				<form class="navbar-form navbar-left">
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="Search">
@@ -81,6 +74,23 @@ div.listAnnounce {
 					<button type="submit" class="btn btn-default">Submit</button>
 
 				</form>
+
+				<ul class="nav navbar-nav">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">Category <span class="caret"></span></a>
+
+						<ul class="dropdown-menu">
+							<c:forEach var="category" items="${categories}">
+								<li><a href="#">${category.getName()}<br> <i>Description:
+											${category.getDescription()} </i></a></li>
+								<li></li>
+								<li role="separator" class="divider"></li>
+							</c:forEach>
+						</ul></li>
+
+
+				</ul>
 				<ul class="navbar-form navbar-right">
 
 					<form action="addAnnouncement.html" method="GET">
@@ -89,8 +99,10 @@ div.listAnnounce {
 					</form>
 
 				</ul>
+
 			</div>
-			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
@@ -98,21 +110,67 @@ div.listAnnounce {
 
 	<c:forEach var="obj" items="${modelAnnouncement}">
 		<div class="listAnnounce">
-				<form action="showDetails.html?id=${obj.id}" method="get">
-					<button class="btn btn-primary ">Details</button>
-				</form>
-				
+			<form action="/showDetails.html?id=${obj.id}" method="GET">
+				<button class="btn btn-primary ">Details</button>
+			</form>
+
 			<a href="showDetails.html?id=${obj.id}">Details</a><br>
-			<a href = "listComments.html">Comment</a>
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
+				data-target="#myModal_${obj.getId()}">Open Modal</button>
+			<form
+				action="/closeAnnouncement.do?id=${obj.id}&ownerEmail=${obj.ownerEmail}"></form>
 			
+			<a
+				href="/closeAnnouncement.do?id=${obj.id}&ownerEmail=${obj.ownerEmail}">Close</a>
+			
+<form
+				action="/closeAnnouncement.do?id=${obj.id}&ownerEmail=${obj.ownerEmail}"
+				method="GET">
+			
+		
+				<button type = "submit">Close</button>
+			</form>
+			<p>Id: ${obj.getId()}</p>
 			<p>Title: ${obj.getTitle()}</p>
 			<p>Location: ${obj.getLocation()}</p>
 			<p>Content: ${obj.getContent()}</p>
-			<p>Available: ${obj.getCreateDate()} to
-				${obj.getExpireDate()}</p>
+			<p>Available: ${obj.getCreateDate()} to ${obj.getExpireDate()}</p>
+			<form
+				action="/closeAnnouncement.do?id=${obj.getId()}&ownerEmail=${obj.ownerEmail}"
+				method="POST">
+				<!-- Modal -->
+				<div class="modal fade" id="myModal_${obj.getId()}" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Close announcement</h4>
+							</div>
+							<div class="modal-body">
+								AnnouncementId:${obj.getId()}<br> Email: <input type="text"
+									name="ownerEmail" />
+							</div>
+
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-default"
+									data-dismiss="modal">Close</button>
+							</div>
+
+
+						</div>
+
+					</div>
+				</div>
+
+
+			</form>
 
 		</div>
 	</c:forEach>
+
+
 
 
 

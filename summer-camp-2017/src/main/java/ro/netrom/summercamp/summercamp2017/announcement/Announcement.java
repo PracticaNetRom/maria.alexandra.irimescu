@@ -24,6 +24,7 @@ public class Announcement {
 	private String ownerPhone;
 	private String categoryDescription;
 
+
 	public Announcement() {
 
 	}
@@ -163,8 +164,8 @@ public class Announcement {
 	public void printAnnouncement() {
 
 		System.out.println("[" + "Title: " + getTitle() + "\n" + "Content: " + getContent() + "\n" + "Location: "
-				+ getLocation() + "ConfirmationCode: " + getConfirmationCode() + "CreateDate:" + getCreateDate()
-				+ "ExpireDate: " + getExpireDate() + "CategoryName: " + getCategoryName());
+				+ getLocation() +"Status: " +isStatus()+ "ConfirmationCode: " + getConfirmationCode() + "CreateDate:" + getCreateDate()
+				+ "ExpireDate: " + getExpireDate() + "OwnerEmail: "+getOwnerEmail() + "OwnerFirstName: "+getOwnerFirstName()+"OwnerLastName: " + getOwnerLastName() +"OwnerPhone: "+ getOwnerPhone() + "CategoryName: " + getCategoryName());
 
 	}
 
